@@ -9,7 +9,7 @@ const initialState = {
   books: [],
   loading: false,
   error: false,
-  sortBy: "",
+  sortBy: "title", // ✅ default sorting
   order: "asc",
 };
 

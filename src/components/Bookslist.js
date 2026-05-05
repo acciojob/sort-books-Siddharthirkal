@@ -4,7 +4,6 @@ import { fetchBooks, setSort } from "../redux/actions";
 
 const BooksList = () => {
   const dispatch = useDispatch();
-
   const { books, loading, error, sortBy, order } = useSelector(
     (state) => state
   );
@@ -22,8 +21,6 @@ const BooksList = () => {
   };
 
   const sortedBooks = [...books].sort((a, b) => {
-    if (!sortBy) return 0;
-
     const valA = (a[sortBy] || "").toLowerCase();
     const valB = (b[sortBy] || "").toLowerCase();
 
@@ -33,27 +30,29 @@ const BooksList = () => {
   });
 
   if (loading) return <h2>Loading...</h2>;
-  if (error) return <h2>Error fetching books</h2>;
+  if (error) return <h2>Error loading books</h2>;
 
   return (
     <div>
       <h1>Books List</h1>
 
-      {/* Dropdowns */}
-      <select onChange={handleSortChange}>
-        <option value="">Sort By</option>
+      {/* SORT DROPDOWN */}
+      <label>Sort By:</label>
+      <select data-testid="sort-by" onChange={handleSortChange}>
         <option value="title">Title</option>
         <option value="author">Author</option>
         <option value="publisher">Publisher</option>
       </select>
 
-      <select onChange={handleOrderChange}>
+      {/* ORDER DROPDOWN */}
+      <label>Order:</label>
+      <select data-testid="order" onChange={handleOrderChange}>
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
 
-      {/* Table */}
-      <table border="1">
+      {/* TABLE */}
+      <table>
         <thead>
           <tr>
             <th>Title</th>
@@ -62,7 +61,6 @@ const BooksList = () => {
             <th>ISBN</th>
           </tr>
         </thead>
-
         <tbody>
           {sortedBooks.map((book, index) => (
             <tr key={index}>
